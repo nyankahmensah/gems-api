@@ -50,7 +50,6 @@ exports.broadcastForecast = async (req, res) => {
 
   console.log("Weather resolved. Fall back");
   const message = parseString(
-    messageTemplates.childScreenMessage +
       forecast.ghana +
       messageTemplates.childScreenBackMessage,
     network
