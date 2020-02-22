@@ -6,6 +6,7 @@ exports.broadcastForecast = async (req, res) => {
   const parseString = req.broker.utils.parseAmpersandInString;
   const network = req.body.NETWORK;
 
+  console.log("USERDATA", req.body.USERDATA);
   // Checking if it is root page
   if (
     String(req.body.USERDATA) === START_PAGE_USERDATA ||
