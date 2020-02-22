@@ -46,14 +46,19 @@ exports.broadcastForecast = async (req, res) => {
     });
   }
 
+  console.log("Weather resolved. Fall back");
+  const message = parseString(
+    messageTemplates.childScreenMessage +
+      forecast.ghana +
+      messageTemplates.childScreenBackMessage,
+    network
+  );
+
+  console.log("This is message", message);
+
   return res.status(200).json({
     ...req.body,
-    MSG: parseString(
-      messageTemplates.childScreenMessage +
-        forecast.ghana +
-        messageTemplates.childScreenBackMessage,
-      network
-    ),
+    MSG: message,
     MSGTYPE: true
   });
 };
