@@ -10,7 +10,8 @@ exports.broadcastForecast = async (req, res) => {
   // Checking if it is root page
   if (
     String(req.body.USERDATA) === START_PAGE_USERDATA ||
-    String(req.body.USERDATA) === "0"
+    String(req.body.USERDATA) === "0" ||
+    String(req.body.USERDATA) === "#"
   ) {
     // Computing days -- [3 days ahead, passing to array]
     const daysAhead = req.broker.utils.computeDaysAhead(3);
