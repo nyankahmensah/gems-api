@@ -35,7 +35,6 @@ const startServer = async () => {
         broker,
       };
     },
-
     typeDefs: [...schema],
     resolvers: {
       ...resolvers,

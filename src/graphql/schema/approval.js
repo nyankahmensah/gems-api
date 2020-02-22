@@ -1,6 +1,12 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+  enum ApprovalStatus {
+    approved
+    denied
+    pending
+  }
+  
   type Approval {
     country: String
     organization: String
@@ -8,6 +14,7 @@ const typeDefs = gql`
     emailAddress: String
     requestReason: String
     approved: Boolean
+    status: ApprovalStatus
     denialReason: String
     createdAt: DateTime
     updatedAt: DateTime

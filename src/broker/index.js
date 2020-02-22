@@ -2,7 +2,6 @@
 const ORMBuilder = require("./db");
 
 // Services
-const MessageService = require("./services/Message");
 const ForecastService = require("./services/Forecast");
 const ApprovalService = require("./services/Approval");
 const utils = require("./utils");
@@ -16,7 +15,6 @@ module.exports = async ({
 
   return {
     ForecastService: ForecastService({ ORM, utils }),
-    MessageService: MessageService({ ORM, utils }),
     ApprovalService: ApprovalService({ ORM, utils }),
     utils
   };

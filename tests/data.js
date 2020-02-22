@@ -1,11 +1,7 @@
-exports.PTMessage = 'O tempo está frio com 1 (calmo) e 270-001';
-exports.FRMessage = 'Le temps est froid avec 1 (calme) et 270-001';
-exports.ENMessage = 'Weather is cold with 1(calm) and 270-001';
-exports.dateIntended = new Date().toString();
-
-
-exports.forecastData = {
-  portuguese : [[{"CapeVerde_forecast_table":"O estado do tempo no mar para amanhã Feb-02-2020 será: 1 (Calmo). Fornecido com o apoio da UE."}],[{"GuineaBissau_forecast_table":"O estado do tempo no mar para amanhã Feb-02-2020 será: 1 (Calmo). Fornecido com o apoio da UE."}],[{"SaoTomePrincipe_forecast_table":"O estado do tempo no mar para amanhã Feb-02-2020 será: 1 (Calmo). Fornecido com o apoio da UE."}]],
-  english : [[{"GH_forecast_table":"Weather at sea for tomorrow Feb-02-2020 will be: 1 (Calm). Provided with the support of the EU."}],[{"Gambia_forecast_table":"Weather at sea for tomorrow Feb-02-2020 will be: 1 (Calm). Provided with the support of the EU."}],[{"Liberia_forecast_table":"Weather at sea for tomorrow Feb-02-2020 will be: 1 (Calm). Provided with the support of the EU."}],[{"Nigeria_forecast_table":"Weather at sea for tomorrow Feb-02-2020 will be: 1 (Calm). Provided with the support of the EU."}],[{"SierraLeone_forecast_table":"Weather at sea for tomorrow Feb-02-2020 will be: 1 (Calm). Provided with the support of the EU."}]],
-  french : [[{"BN_forecast_table":"Le temps en mer pour demain Feb-02-2020 sera: 1 (Calme). Fourni avec le soutien de l'UE."}],[{"CotedIvoire_forecast_table":"Le temps en mer pour demain Feb-02-2020 sera: 1 (Calme). Fourni avec le soutien de l'UE."}],[{"Guinea_forecast_table":"Le temps en mer pour demain Feb-02-2020 sera: 1 (Calme). Fourni avec le soutien de l'UE."}],[{"Mauritania_forecast_table":"Le temps en mer pour demain Feb-02-2020 sera: 1 (Calme). Fourni avec le soutien de l'UE."}],[{"Senegal_forecast_table":"Le temps en mer pour demain Feb-02-2020 sera: 1 (Calme). Fourni avec le soutien de l'UE."}],[{"Togo_forecast_table":"Le temps en mer pour demain Feb-02-2020 sera: 1 (Calme). Fourni avec le soutien de l'UE."}]]
+exports.approvalRequest = {
+  country: 'Ghana',
+  organization: 'Polymorph Labs',
+  emailAddress: 'raaj.ahab@gmail.com',
+  phoneNumber: '0558691496',
+  requestReason: 'A very simple request reason'
 };

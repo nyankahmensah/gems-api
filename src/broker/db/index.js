@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const buildORMFromModel = require("./buildORMFromModel");
 
 // Models
-const MessageModel = require("./models/Message");
 const ForecastModel = require("./models/Forecast");
 const ApprovalModel = require("./models/Approval");
+const { MobileUserModel } = require("./models/MobileUser");
 
 const ORMBuilder = async ({ databaseURI }) => {
   await mongoose
@@ -23,9 +23,9 @@ const ORMBuilder = async ({ databaseURI }) => {
     });
 
   return {
-    Message: buildORMFromModel(MessageModel),
     Forecast: buildORMFromModel(ForecastModel),
-    Approval: buildORMFromModel(ApprovalModel)
+    Approval: buildORMFromModel(ApprovalModel),
+    MobileUser: buildORMFromModel(MobileUserModel)
   };
 };
 

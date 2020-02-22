@@ -1,11 +1,16 @@
-const router = require('express').Router();
-const { messageController, forecastController } = require('../controllers');
+const router = require("express").Router();
+const path = require("path");
+const { forecastController } = require("../controllers");
 
-router.post('/', forecastController.receiveForecast);
-router.get('/', (req, res) => {
-  return res.status(200).send("Welcome to GMES. This is a GET request")
+// Web Dashboard
+// Handle React routing, return all requests to React app
+router.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
-router.post('/ussd', forecastController.broadcastForecast);
-router.post('/message', forecastController.receiveForecast);
+
+// Forecast
+router.post("/", forecastController.receiveForecast);
+router.post("/ussd", forecastController.broadcastForecast);
+router.post("/message", forecastController.receiveForecast);
 
 module.exports = router;

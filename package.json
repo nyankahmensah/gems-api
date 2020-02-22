@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "author": "Raaj <raaj.ahab@gmail.com>",
-  "license": "ISC",
+  "private": true,
+  "license": "UNLICENSED",
   "scripts": {
     "test": "jest --detectOpenHandles --watchAll --runInBand",
     "test-and-exit": "jest --detectOpenHandles --runInBand --forceExit",
-    "start:dev": "concurrently \"nodemon src/index.js\" \"cd client && yarn start\"",
-    "start:prod": "pm2 start ecosystem.config.js --env production",
+    "dev": "nodemon src/index.js",
+    "build": "yarn",
+    "prod": "pm2 start ecosystem.config.js --env production",
     "lint": "eslint 'src/**/*.js' --fix",
     "format": "prettier-eslint 'src/**/**/**/*.{js,json}' --write"
   },

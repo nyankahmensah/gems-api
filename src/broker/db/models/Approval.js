@@ -7,7 +7,12 @@ const approvalSchema = new mongoose.Schema(
     phoneNumber: { type: String, required: true },
     emailAddress: { type: String, required: true },
     requestReason: { type: String, required: true },
-    approved: { type: Boolean, required: true, default: false },
+    status: {
+      type: String,
+      required: true,
+      enum: ["approved", "denied", "pending"],
+      default: "pending"
+    },
     denialReason: { type: String }
   },
   { timestamps: true }

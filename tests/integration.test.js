@@ -1,7 +1,7 @@
-const MongoMemoryServer = require('mongodb-memory-server').default;
-const RedisMock = require('ioredis-mock');
-const Broker = require('../src/broker');
-const data = require('./data');
+const MongoMemoryServer = require("mongodb-memory-server").default;
+const RedisMock = require("ioredis-mock");
+const Broker = require("../src/broker");
+const data = require("./data");
 
 let broker;
 let mongoServer;
@@ -10,13 +10,13 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
 
 beforeAll(async () => {
   mongoServer = new MongoMemoryServer({
-    debug: false,
+    debug: false
   });
   const databaseURI = await mongoServer.getConnectionString();
   const redisURI = new RedisMock();
   broker = await Broker({
     databaseURI,
-    redisURI,
+    redisURI
   });
 });
 
@@ -24,22 +24,41 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
-describe('Integration Tests', () => {
-  describe('Message tests', () => {
-    it('Creates a new message that takes PT, FR, and EN', async () => {
-      const newMessage = await broker.MessageService.createMessage({
-        en: data.ENMessage,
-        pt: data.PTMessage,
-        fr: data.FRMessage,
-        effectiveDate: data.dateIntended
+describe("Integration Tests", () => {
+  describe("Approval tests", () => {
+    it("Should request for approval and return a PENDING status", async () => {
+      const requestApproval = await broker.ApprovalService.requestApproval(
+        data.approvalRequest
+      );
+
+      expect(requestApproval).toMatchObject({
+        ...data.approvalRequest,
+        status: "pending"
+      });
+    });
+
+    it("Should accept request for approval by returning an APPROVED status", async () => {
+      const [
+        existingApprovalRequest
+      ] = await broker.ApprovalService.getApprovals();
+
+      const approvedRequest = await broker.ApprovalService.approve({
+        approval: existingApprovalRequest._id
       });
 
-      expect(newMessage).toMatchObject({
-        en: data.ENMessage,
-        pt: data.PTMessage,
-        fr: data.FRMessage,
-        effectiveDate: new Date(data.dateIntended)
-      })
+      expect(approvedRequest.status).toBe("approved");
+    });
+
+    it("Should reject request for approval by returning a DENIED status", async () => {
+      const [
+        existingApprovalRequest
+      ] = await broker.ApprovalService.getApprovals();
+
+      const approvedRequest = await broker.ApprovalService.reject({
+        approval: existingApprovalRequest._id
+      });
+
+      expect(approvedRequest.status).toBe("denied");
     });
   });
 });

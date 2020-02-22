@@ -1,14 +1,14 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const mkdirp = require('mkdirp');
-const securePin = require('secure-pin');
-const mailgun = require('mailgun-js');
-const uuidv1 = require('uuid/v1');
-const axios = require('axios');
-const XDate = require('xdate');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const mkdirp = require("mkdirp");
+const securePin = require("secure-pin");
+const mailgun = require("mailgun-js");
+const uuidv1 = require("uuid/v1");
+const axios = require("axios");
+const XDate = require("xdate");
 
-const MAILGUN_API = '26b2960b8ae02db40b88c8c21f69c262-5645b1f9-6b118c84';
-const DOMAIN = 'mail.polymorphlabs.io';
+const MAILGUN_API = "26b2960b8ae02db40b88c8c21f69c262-5645b1f9-6b118c84";
+const DOMAIN = "mail.polymorphlabs.io";
 
 const mg = mailgun({ apiKey: MAILGUN_API, domain: DOMAIN });
 
@@ -22,7 +22,7 @@ const comparePassword = async ({ password, hashedPassword }) =>
 
 const generateToken = ({ payload, secretKey }) =>
   new Promise(async (resolve, reject) => {
-    jwt.sign(payload, secretKey, { expiresIn: '24h' }, (err, token) => {
+    jwt.sign(payload, secretKey, { expiresIn: "24h" }, (err, token) => {
       if (err) reject(err);
 
       resolve(token);
@@ -60,10 +60,10 @@ const generateMemberPin = async () =>
 
 const sendMail = async ({ subject, content, receiver }) => {
   const mailInfo = {
-    from: 'GMES & Africa <contact@gmes.polymorphlabs.io>',
+    from: "GMES & Africa <contact@gmes.polymorphlabs.io>",
     to: receiver,
     subject,
-    text: content,
+    text: content
   };
 
   mg.messages().send(mailInfo, error => {
@@ -84,12 +84,13 @@ const sendSMS = async ({ phone, message }) => {
 };
 
 const validatePin = async (phone, otp) => {
-  if (process.env.NODE_ENV === 'production') {
-    const VALIDATE_LOGIN_PIN_URL = 'https://hades.polymorphlabs.io/api/v1/otp/validate';
+  if (process.env.NODE_ENV === "production") {
+    const VALIDATE_LOGIN_PIN_URL =
+      "https://hades.polymorphlabs.io/api/v1/otp/validate";
     try {
       const response = await axios.post(VALIDATE_LOGIN_PIN_URL, {
         phone,
-        otp,
+        otp
       });
       return response.data;
     } catch (e) {
@@ -98,19 +99,19 @@ const validatePin = async (phone, otp) => {
   } else {
     return {
       success: true,
-      message: 'OTP validated successfully',
+      message: "OTP validated successfully"
     };
   }
 };
 
 const generatePin = async phone => {
-  if (process.env.NODE_ENV === 'production') {
-    console.log('Making real call');
-    const GENERATE_LOGIN_PIN_URL = 'https://hades.polymorphlabs.io/api/v1/otp';
+  if (process.env.NODE_ENV === "production") {
+    console.log("Making real call");
+    const GENERATE_LOGIN_PIN_URL = "https://hades.polymorphlabs.io/api/v1/otp";
     try {
       const response = await axios.post(GENERATE_LOGIN_PIN_URL, {
         phone,
-        entity: 'PCG',
+        entity: "PCG"
       });
       return response.data;
     } catch (e) {
@@ -119,29 +120,31 @@ const generatePin = async phone => {
   } else {
     return {
       success: true,
-      message: 'OTP generated successfully',
+      message: "OTP generated successfully"
     };
   }
 };
 
-
-
-const computeDaysAhead = (daysAhead) => {
+const computeDaysAhead = daysAhead => {
   const today = new XDate();
 
   let days = [];
-  for(let i = 0; i < daysAhead; i++){
+  for (let i = 0; i < daysAhead; i++) {
     let dayAhead = today.addDays(1);
-    days.push(dayAhead.toString("ddd dS MMM"))
+    days.push(dayAhead.toString("ddd dS MMM"));
   }
 
   return days;
 };
 
+const parseAmpersandInString = (string, network) => {
+  console.log("This is network", network);
+  if (network === "MTN" || network === "Vodafone") {
+    return String(string).replace("&", "&amp;");
+  }
 
-const parseAmpersandInString = string => String(string).replace("&", "&amp;");
-
-
+  return string;
+};
 
 module.exports = {
   hashPassword,
