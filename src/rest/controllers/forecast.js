@@ -48,7 +48,7 @@ exports.broadcastForecast = async (req, res) => {
   }
 
   const message = parseString(
-    messageTemplates.childScreenMessage +
+    messageTemplates.childScreenMessage + " " +
       forecast.ghana +
       messageTemplates.childScreenBackMessage,
     network
