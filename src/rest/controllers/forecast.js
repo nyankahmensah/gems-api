@@ -6,7 +6,6 @@ exports.broadcastForecast = async (req, res) => {
   const parseString = req.broker.utils.parseAmpersandInString;
   const network = req.body.NETWORK;
 
-  console.log("USERDATA", req.body.USERDATA);
   // Checking if it is root page
   if (
     String(req.body.USERDATA) === START_PAGE_USERDATA ||
@@ -48,7 +47,6 @@ exports.broadcastForecast = async (req, res) => {
     });
   }
 
-  console.log("Weather resolved. Fall back");
   const message = parseString(
     messageTemplates.childScreenMessage +
       forecast.ghana +
@@ -56,7 +54,6 @@ exports.broadcastForecast = async (req, res) => {
     network
   );
 
-  console.log("This is message", message);
 
   return res.status(200).json({
     ...req.body,

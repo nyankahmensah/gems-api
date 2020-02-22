@@ -138,7 +138,6 @@ const computeDaysAhead = daysAhead => {
 };
 
 const parseAmpersandInString = (string, network) => {
-  console.log("This is network", network);
   if (network === "MTN" || network === "VODAFONE") {
     return String(string).replace(/&/g, "&amp;");
   }
