@@ -5,7 +5,7 @@ const rootPage =
 
 const childScreenMessage = "GMES & Africa ";
 
-const childScreenBackMessage = "\n 0. Back";
+const childScreenBackMessage = "\n0. Back";
 
 module.exports = {
   welcomeMessage,
