@@ -1,57 +1,57 @@
-const { ApolloServer } = require('apollo-server-express');
-const dotenv = require('dotenv');
-const Sentry = require('@sentry/node');
-const app = require('./app');
-const schema = require('./graphql/schema');
-const resolvers = require('./graphql/resolvers');
-const Broker = require('./broker');
+const { ApolloServer } = require("apollo-server-express");
+const dotenv = require("dotenv");
+const Sentry = require("@sentry/node");
+const app = require("./app");
+const schema = require("./graphql/schema");
+const resolvers = require("./graphql/resolvers");
+const Broker = require("./broker");
 
 // Middlewares
-const injectBroker = require('./middlewares/injectBroker');
+const injectBroker = require("./middlewares/injectBroker");
 
 // REST API Routes
-const routes = require('./rest/routes');
+const routes = require("./rest/routes");
 
 dotenv.config({
-  path: '../env',
+  path: "../env"
 });
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   Sentry.init({
-    dsn: 'https://5e45b5debccb49059b2b5ff59d028f1f@sentry.io/1807633',
+    dsn: "https://cc4d4d44fc9f4e18a990976693666475@sentry.io/2813230"
   });
 }
 
 const startServer = async () => {
   // Starting Broker
   const broker = await Broker({
-    databaseURI: process.env.DATABASE_URI,
+    databaseURI: process.env.DATABASE_URI
   });
 
   // Configuring graphQL server
   const server = new ApolloServer({
     context: async () => {
       return {
-        broker,
+        broker
       };
     },
     typeDefs: [...schema],
     resolvers: {
-      ...resolvers,
+      ...resolvers
     },
     introspection: true,
     playground: true,
-    tracing: true,
+    tracing: true
   });
 
   // Applying graphQL server to express server
-  server.applyMiddleware({ app, path: '/graphql' });
+  server.applyMiddleware({ app, path: "/graphql" });
   app.use(injectBroker({ broker }));
   app.use(routes);
 
   app.listen(process.env.PORT, () => {
     // eslint-disable-next-line no-console
-    console.log('Server started successfully on Port', process.env.PORT);
+    console.log("Server started successfully on Port", process.env.PORT);
   });
 };
 
