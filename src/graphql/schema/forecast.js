@@ -18,14 +18,18 @@ const typeDefs = gql`
     gambia
   }
 
-  input getForecastByCountryAndDayInput {
+  input forecastByCountryAndDayInput {
     country: country
     startDate: Date
     endDate: Date
   }
 
+  type Forecast {
+    forecastMessage: String
+  }
+
   extend type Query {
-    getForecastByCountryAndDay(input: getForecastByCountryAndDayInput): String
+    forecastByCountryAndDay(input: forecastByCountryAndDayInput): Forecast
   }
 `;
 

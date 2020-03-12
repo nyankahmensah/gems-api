@@ -2,7 +2,13 @@ module.exports = {
   Mutation: {},
 
   Query: {
-    getForecastByCountryAndDay: async (_, args, { broker }) =>
-      broker.ForecastService.getForecastByCountryAndDay(args.input)
+    forecastByCountryAndDay: async (_, args, { broker }) => {
+      const forecast = broker.ForecastService.getForecastByCountryAndDay(
+        args.input
+      );
+      return {
+        forecastMessage: forecast
+      };
+    }
   }
 };
