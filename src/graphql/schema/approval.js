@@ -6,8 +6,9 @@ const typeDefs = gql`
     denied
     pending
   }
-  
+
   type Approval {
+    _id: ID
     country: String
     organization: String
     phoneNumber: String
@@ -29,6 +30,7 @@ const typeDefs = gql`
   }
 
   input getApprovalsFilter {
+    _id: ID
     country: String
     organization: String
     phoneNumber: String
@@ -38,8 +40,15 @@ const typeDefs = gql`
     denialReason: String
   }
 
+  input rejectApprovalInput {
+    approvalID: ID!
+    reason: String
+  }
+
   extend type Mutation {
     requestApproval(input: requestApprovalInput): Approval
+    acceptApproval(approvalID: ID!): Approval
+    rejectApproval(input: rejectApprovalInput!): Approval
   }
 
   extend type Query {

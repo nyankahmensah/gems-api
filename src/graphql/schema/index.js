@@ -3,6 +3,7 @@ const { gql } = require("apollo-server-express");
 const { GraphQLDateTime, GraphQLDate } = require("graphql-iso-date");
 const messageSchema = require("./message");
 const approvalSchema = require("./approval");
+const forecastSchema = require("./forecast");
 
 const rootSchema = gql`
   scalar DateTime
@@ -16,4 +17,4 @@ const rootSchema = gql`
     root: String
   }
 `;
-module.exports = [rootSchema, messageSchema, approvalSchema];
+module.exports = [rootSchema, messageSchema, approvalSchema, forecastSchema];

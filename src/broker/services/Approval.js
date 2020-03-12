@@ -53,7 +53,7 @@ function ApprovalService({ ORM, utils }) {
       await utils.sendMail({
         subject: "GMES & Africa Mobile App Approval Request",
         content: `Your request for approval has been accepted. You can login to GMES Mobile using the following credentials 
-          Email - ${acceptedRequest.email}
+          Email - ${acceptedRequest.emailAddress}
           Access Token - ${newUserAccountPin}`,
         receiver: acceptedRequest.emailAddress
       });

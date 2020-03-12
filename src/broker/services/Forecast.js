@@ -39,10 +39,30 @@ function ForecastService({ ORM }) {
     }
   };
   const getForecast = async filter => ORM.Forecast.find(filter);
+
+  const getForecastByCountryAndDay = async ({
+    country,
+    startDate,
+    endDate
+  }) => {
+    const forecast = await ORM.Forecast.findOne({
+      effectiveDate: {
+        $gte: new Date(startDate).setHours(0, 0, 0),
+        $lt: new Date(endDate).setHours(23, 59, 59)
+      }
+    });
+
+    if (!forecast) {
+      return null;
+    }
+
+    return forecast[country];
+  };
+
   const getForecastForDay = async ({ dateStart, dateEnd }) => {
     return ORM.Forecast.findOne({
       effectiveDate: {
-        $gte: dateStart,
+        $gte: new Date(dateStart),
         $lt: dateEnd
       }
     });
@@ -51,7 +71,13 @@ function ForecastService({ ORM }) {
   const broadcastForecast = async ({ category }) =>
     ORM.Forecast.findOne({ category });
 
-  return { createForecast, getForecastForDay, broadcastForecast, getForecast };
+  return {
+    createForecast,
+    getForecastForDay,
+    broadcastForecast,
+    getForecast,
+    getForecastByCountryAndDay
+  };
 }
 
 module.exports = ForecastService;
