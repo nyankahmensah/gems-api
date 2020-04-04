@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "gmes-ussd-sms-api",
+      name: "gmes-api",
       script: "src/index.js",
       args: "one two",
       instances: "max",
@@ -14,11 +14,10 @@ module.exports = {
       },
       env_production: {
         NODE_ENV: "production",
-        DATABASE_URI: "mongodb://localhost:27017/gmes-ussd-sms",
+        DATABASE_URI: "mongodb://localhost:27017/gmes",
         PORT: 5427,
         JWT_SECRET_KEY:
-          "908u9y7gf382fho3487hf98o28l3igydeihof32uyugklhf3iogy2fuh2398o87gy3fi2up9h8ogy3f2p",
-        NODE_ENV: "production"
+          "908u9y7gf382fho3487hf98o28l3igydeihof32uyugklhf3iogy2fuh2398o87gy3fi2up9h8ogy3f2p"
       }
     }
   ],
