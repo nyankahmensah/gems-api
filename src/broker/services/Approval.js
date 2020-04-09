@@ -1,4 +1,12 @@
 function ApprovalService({ ORM, utils }) {
+  const buildEmailContent = name => {
+    return (
+      "Dear " +
+      name +
+      "\nPlease, your request for access to the PFZ service has been received. " +
+      "We will get back to you shortly\nBest regards, UG-GMES HelpDesk"
+    );
+  };
   // We create a request for approval and send emails to requester and system admin...
   const requestApproval = async approval => {
     const existingApproval = await ORM.Approval.findOne({
@@ -14,14 +22,13 @@ function ApprovalService({ ORM, utils }) {
     if (process.env.NODE_ENV === "production") {
       utils.sendMail({
         subject: "GMES & Africa Mobile App Approval Request",
-        content:
-          "Your request for approval has been received. It shall be vetted and we will revert soon",
+        content: buildEmailContent(savedApproval.name),
         receiver: savedApproval.emailAddress
       });
 
       utils.sendMail({
         subject: "GMES & Africa Mobile App Approval Request",
-        content: `A new approval request has been made by ${savedApproval.emailAddress} from ${savedApproval.organization}. Follow this <a href=${process.env.WEB_ADDRESS}>link</a> to manage this request`,
+        content: `A new approval request has been made by ${savedApproval.emailAddress} from ${savedApproval.organization} - ${savedApproval.country}. Follow this <a href=${process.env.WEB_ADDRESS}>link</a> to manage this request`,
         receiver: process.env.ADMINISTRATOR_EMAIL
       });
     }

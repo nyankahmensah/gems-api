@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const approvalSchema = new mongoose.Schema(
   {
+    name: { type: String, required: true },
     country: { type: String, required: true },
     organization: { type: String, required: true },
     phoneNumber: { type: String, required: true },

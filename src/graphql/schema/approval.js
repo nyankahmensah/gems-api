@@ -9,6 +9,7 @@ const typeDefs = gql`
 
   type Approval {
     _id: ID
+    name: String
     country: String
     organization: String
     phoneNumber: String
@@ -22,6 +23,7 @@ const typeDefs = gql`
   }
 
   input requestApprovalInput {
+    name: String!
     country: String!
     organization: String!
     phoneNumber: String!
@@ -31,6 +33,7 @@ const typeDefs = gql`
 
   input getApprovalsFilter {
     _id: ID
+    name: String
     country: String
     organization: String
     phoneNumber: String
