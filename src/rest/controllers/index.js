@@ -1,1 +1,1 @@
-module.exports.forecastController = require('./forecast');
+module.exports.forecastController = require("./forecast");

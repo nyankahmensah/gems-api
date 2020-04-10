@@ -12,7 +12,7 @@ const DOMAIN = "mail.polymorphlabs.io";
 
 const mg = mailgun({ apiKey: MAILGUN_API, domain: DOMAIN });
 
-const hashPassword = async password => {
+const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   return bcrypt.hash(password, salt);
 };
@@ -41,7 +41,7 @@ const generateMobileToken = () => uuidv1();
 
 const ensureDirectory = ({ directory }) =>
   new Promise(async (resolve, reject) => {
-    mkdirp(directory, err => {
+    mkdirp(directory, (err) => {
       if (err) reject(err);
       resolve(true);
     });
@@ -50,7 +50,7 @@ const ensureDirectory = ({ directory }) =>
 const generateMemberPin = async () =>
   new Promise(async (resolve, reject) => {
     try {
-      securePin.generatePin(6, pin => {
+      securePin.generatePin(6, (pin) => {
         resolve(pin);
       });
     } catch (e) {
@@ -63,10 +63,10 @@ const sendMail = async ({ subject, content, receiver }) => {
     from: "GMES & Africa <contact@gmes.polymorphlabs.io>",
     to: receiver,
     subject,
-    text: content
+    text: content,
   };
 
-  mg.messages().send(mailInfo, error => {
+  mg.messages().send(mailInfo, (error) => {
     if (error) {
       throw new Error(error);
     }
@@ -90,7 +90,7 @@ const validatePin = async (phone, otp) => {
     try {
       const response = await axios.post(VALIDATE_LOGIN_PIN_URL, {
         phone,
-        otp
+        otp,
       });
       return response.data;
     } catch (e) {
@@ -99,19 +99,19 @@ const validatePin = async (phone, otp) => {
   } else {
     return {
       success: true,
-      message: "OTP validated successfully"
+      message: "OTP validated successfully",
     };
   }
 };
 
-const generatePin = async phone => {
+const generatePin = async (phone) => {
   if (process.env.NODE_ENV === "production") {
     console.log("Making real call");
     const GENERATE_LOGIN_PIN_URL = "https://hades.polymorphlabs.io/api/v1/otp";
     try {
       const response = await axios.post(GENERATE_LOGIN_PIN_URL, {
         phone,
-        entity: "PCG"
+        entity: "PCG",
       });
       return response.data;
     } catch (e) {
@@ -120,12 +120,12 @@ const generatePin = async phone => {
   } else {
     return {
       success: true,
-      message: "OTP generated successfully"
+      message: "OTP generated successfully",
     };
   }
 };
 
-const computeDaysAhead = daysAhead => {
+const computeDaysAhead = (daysAhead) => {
   const today = new XDate();
 
   let days = [];
@@ -158,5 +158,5 @@ module.exports = {
   generatePin,
   validatePin,
   computeDaysAhead,
-  parseAmpersandInString
+  parseAmpersandInString,
 };

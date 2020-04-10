@@ -11,5 +11,5 @@ module.exports = {
   welcomeMessage,
   rootPage,
   childScreenMessage,
-  childScreenBackMessage
+  childScreenBackMessage,
 };

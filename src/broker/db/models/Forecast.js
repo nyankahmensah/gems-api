@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const forecastSchema = new mongoose.Schema(
   {
@@ -18,8 +18,7 @@ const forecastSchema = new mongoose.Schema(
     gambia: { type: String },
     effectiveDate: { type: Date, required: true },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('forecast', forecastSchema);
-
+module.exports = mongoose.model("forecast", forecastSchema);

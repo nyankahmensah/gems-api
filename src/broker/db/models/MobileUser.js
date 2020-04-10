@@ -5,7 +5,7 @@ const mobileUserSchema = new mongoose.Schema({
   organization: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   password: { type: String, required: true },
-  active: { type: Boolean, required: true, default: true }
+  active: { type: Boolean, required: true, default: true },
 });
 
 exports.MobileUserModel = mongoose.model("mobileUser", mobileUserSchema);

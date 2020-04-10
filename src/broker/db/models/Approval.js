@@ -12,9 +12,9 @@ const approvalSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: ["approved", "denied", "pending"],
-      default: "pending"
+      default: "pending",
     },
-    denialReason: { type: String }
+    denialReason: { type: String },
   },
   { timestamps: true }
 );

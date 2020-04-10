@@ -10,13 +10,13 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 50000;
 
 beforeAll(async () => {
   mongoServer = new MongoMemoryServer({
-    debug: false
+    debug: false,
   });
   const databaseURI = await mongoServer.getConnectionString();
   const redisURI = new RedisMock();
   broker = await Broker({
     databaseURI,
-    redisURI
+    redisURI,
   });
 });
 
@@ -33,17 +33,17 @@ describe("Integration Tests", () => {
 
       expect(requestApproval).toMatchObject({
         ...data.approvalRequest,
-        status: "pending"
+        status: "pending",
       });
     });
 
     it("Should accept request for approval by returning an APPROVED status", async () => {
       const [
-        existingApprovalRequest
+        existingApprovalRequest,
       ] = await broker.ApprovalService.getApprovals();
 
       const approvedRequest = await broker.ApprovalService.approve({
-        approval: existingApprovalRequest._id
+        approval: existingApprovalRequest._id,
       });
 
       expect(approvedRequest.status).toBe("approved");
@@ -51,11 +51,11 @@ describe("Integration Tests", () => {
 
     it("Should reject request for approval by returning a DENIED status", async () => {
       const [
-        existingApprovalRequest
+        existingApprovalRequest,
       ] = await broker.ApprovalService.getApprovals();
 
       const approvedRequest = await broker.ApprovalService.reject({
-        approval: existingApprovalRequest._id
+        approval: existingApprovalRequest._id,
       });
 
       expect(approvedRequest.status).toBe("denied");

@@ -14,7 +14,7 @@ function ForecastService({ ORM }) {
     sierraLeone,
     senegal,
     gambia,
-    effectiveDate
+    effectiveDate,
   }) => {
     try {
       return ORM.Forecast.save({
@@ -32,24 +32,24 @@ function ForecastService({ ORM }) {
         sierraLeone,
         senegal,
         gambia,
-        effectiveDate
+        effectiveDate,
       });
     } catch (e) {
       throw e;
     }
   };
-  const getForecast = async filter => ORM.Forecast.find(filter);
+  const getForecast = async (filter) => ORM.Forecast.find(filter);
 
   const getForecastByCountryAndDay = async ({
     country,
     startDate,
-    endDate
+    endDate,
   }) => {
     const forecast = await ORM.Forecast.findOne({
       effectiveDate: {
         $gte: new Date(startDate).setHours(0, 0, 0),
-        $lt: new Date(endDate).setHours(23, 59, 59)
-      }
+        $lt: new Date(endDate).setHours(23, 59, 59),
+      },
     });
 
     if (!forecast) {
@@ -63,8 +63,8 @@ function ForecastService({ ORM }) {
     return ORM.Forecast.findOne({
       effectiveDate: {
         $gte: new Date(dateStart),
-        $lt: dateEnd
-      }
+        $lt: dateEnd,
+      },
     });
   };
 
@@ -76,7 +76,7 @@ function ForecastService({ ORM }) {
     getForecastForDay,
     broadcastForecast,
     getForecast,
-    getForecastByCountryAndDay
+    getForecastByCountryAndDay,
   };
 }
 

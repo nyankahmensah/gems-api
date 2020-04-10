@@ -1,4 +1,4 @@
-const utils = require('../broker/utils');
+const utils = require("../broker/utils");
 
 // Resolves user with auth token
 const resolveUser = async ({ token }) => {
@@ -8,7 +8,7 @@ const resolveUser = async ({ token }) => {
       secretKey: process.env.JWT_SECRET_KEY,
     });
   } catch (e) {
-    throw new Error('AuthenticationError');
+    throw new Error("AuthenticationError");
   }
 };
 

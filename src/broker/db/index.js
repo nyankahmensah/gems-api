@@ -16,16 +16,16 @@ const ORMBuilder = async ({ databaseURI }) => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     })
-    .catch(e => {
+    .catch((e) => {
       throw new Error(e);
     });
 
   return {
     Forecast: buildORMFromModel(ForecastModel),
     Approval: buildORMFromModel(ApprovalModel),
-    MobileUser: buildORMFromModel(MobileUserModel)
+    MobileUser: buildORMFromModel(MobileUserModel),
   };
 };
 

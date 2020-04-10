@@ -23,22 +23,22 @@ describe("Utility tests", () => {
         payload: {
           name: "Raaj",
           email: "raaj@nexthealth.io",
-          password: "anewpassword"
+          password: "anewpassword",
         },
-        secretKey: "ojfo9j8f98fjh938hjf9ohf"
+        secretKey: "ojfo9j8f98fjh938hjf9ohf",
       });
     });
 
     it("Should verify generated JSON web token", async () => {
       const payload = await utils.validateToken({
         token,
-        secretKey: "ojfo9j8f98fjh938hjf9ohf"
+        secretKey: "ojfo9j8f98fjh938hjf9ohf",
       });
 
       expect(payload).toMatchObject({
         name: "Raaj",
         email: "raaj@nexthealth.io",
-        password: "anewpassword"
+        password: "anewpassword",
       });
     });
   });

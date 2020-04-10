@@ -7,8 +7,8 @@ module.exports = {
         args.input
       );
       return {
-        forecastMessage: forecast
+        forecastMessage: forecast,
       };
-    }
-  }
+    },
+  },
 };

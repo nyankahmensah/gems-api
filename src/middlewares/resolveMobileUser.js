@@ -1,4 +1,4 @@
-const MobileToken = require('../broker/db/models/MobileToken');
+const MobileToken = require("../broker/db/models/MobileToken");
 
 // Resolves user with auth token
 const resolveMobileUser = async ({ mobileToken }) => {
