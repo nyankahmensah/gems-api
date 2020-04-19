@@ -8,9 +8,9 @@ function MobileUserService({ ORM, utils }) {
       throw new Error("UserNotExist");
     }
 
-    return {
-      user: existingMobileUser
-    };
+    return await ORM.MobileUser.findByIdAndUpdate(existingMobileUser._id, {
+      mobileToken: utils.hashPassword(new Date().toString())
+    });
   };
 
   return {
