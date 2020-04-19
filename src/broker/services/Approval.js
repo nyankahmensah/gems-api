@@ -1,5 +1,5 @@
 function ApprovalService({ ORM, utils }) {
-  const buildEmailContent = (name) => {
+  const buildEmailContent = name => {
     return (
       "Dear " +
       name +
@@ -8,9 +8,9 @@ function ApprovalService({ ORM, utils }) {
     );
   };
   // We create a request for approval and send emails to requester and system admin...
-  const requestApproval = async (approval) => {
+  const requestApproval = async approval => {
     const existingApproval = await ORM.Approval.findOne({
-      emailAddress: approval.emailAddress,
+      emailAddress: approval.emailAddress
     });
 
     if (existingApproval) {
@@ -23,13 +23,13 @@ function ApprovalService({ ORM, utils }) {
       utils.sendMail({
         subject: "GMES & Africa Mobile App Approval Request",
         content: buildEmailContent(savedApproval.name),
-        receiver: savedApproval.emailAddress,
+        receiver: savedApproval.emailAddress
       });
 
       utils.sendMail({
         subject: "GMES & Africa Mobile App Approval Request",
         content: `A new approval request has been made by ${savedApproval.emailAddress} from ${savedApproval.organization} - ${savedApproval.country}. Follow this <a href=${process.env.WEB_ADDRESS}>link</a> to manage this request`,
-        receiver: process.env.ADMINISTRATOR_EMAIL,
+        receiver: process.env.ADMINISTRATOR_EMAIL
       });
     }
 
@@ -39,21 +39,18 @@ function ApprovalService({ ORM, utils }) {
   // We approve request and create user account with details from request...
   const approve = async ({ approval }) => {
     const acceptedRequest = await ORM.Approval.findByIdAndUpdate(approval, {
-      status: "approved",
+      status: "approved"
     });
 
     // Generating user account pin
     const newUserAccountPin = await utils.generateMemberPin();
-
-    // Hashing user account pin
-    const hashedNewUserAccountPin = await utils.hashPassword(newUserAccountPin);
 
     // Saving new user account to DB
     await ORM.MobileUser.save({
       emailAddress: acceptedRequest.emailAddress,
       phoneNumber: acceptedRequest.phoneNumber,
       organization: acceptedRequest.organization,
-      password: hashedNewUserAccountPin,
+      password: newUserAccountPin
     });
 
     if (process.env.NODE_ENV === "production") {
@@ -61,7 +58,7 @@ function ApprovalService({ ORM, utils }) {
         subject: "GMES & Africa Mobile App Approval Request",
         content: `Your request for approval has been accepted. You can login to GMES Mobile using the following access token
 ${newUserAccountPin}`,
-        receiver: acceptedRequest.emailAddress,
+        receiver: acceptedRequest.emailAddress
       });
     }
 
@@ -72,12 +69,12 @@ ${newUserAccountPin}`,
   const reject = async ({ approval, denialReason }) => {
     const rejectedRequest = await ORM.Approval.findByIdAndUpdate(approval, {
       status: "denied",
-      denialReason,
+      denialReason
     });
 
     // Disabling user account
     await ORM.MobileUser.findByIdAndUpdate(approval, {
-      active: false,
+      active: false
     });
 
     if (process.env.NODE_ENV === "production") {
@@ -85,7 +82,7 @@ ${newUserAccountPin}`,
         subject: "GMES & Africa Mobile App Approval Request",
         content: `Your request for approval has been rejected for this reason..
         ${rejectedRequest.denialReason}`,
-        receiver: rejectedRequest.emailAddress,
+        receiver: rejectedRequest.emailAddress
       });
     }
 
@@ -99,7 +96,7 @@ ${newUserAccountPin}`,
     requestApproval,
     getApprovals,
     approve,
-    reject,
+    reject
   };
 }
 

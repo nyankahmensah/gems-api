@@ -4,6 +4,7 @@ const { GraphQLDateTime, GraphQLDate } = require("graphql-iso-date");
 const messageSchema = require("./message");
 const approvalSchema = require("./approval");
 const forecastSchema = require("./forecast");
+const userSchema = require("./user");
 
 const rootSchema = gql`
   scalar DateTime
@@ -17,4 +18,10 @@ const rootSchema = gql`
     root: String
   }
 `;
-module.exports = [rootSchema, messageSchema, approvalSchema, forecastSchema];
+module.exports = [
+  rootSchema,
+  messageSchema,
+  approvalSchema,
+  forecastSchema,
+  userSchema
+];
