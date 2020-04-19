@@ -9,7 +9,7 @@ function MobileUserService({ ORM, utils }) {
     }
 
     return await ORM.MobileUser.findByIdAndUpdate(existingMobileUser._id, {
-      mobileToken: utils.hashPassword(new Date().toString())
+      mobileToken: await utils.hashPassword(new Date().toString())
     });
   };
 
