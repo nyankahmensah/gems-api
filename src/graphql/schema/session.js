@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type USSDSession {
     phone: String
-    session: Int
+    sessions: Int
     createdAt: DateTime
     updatedAt: DateTime
   }
