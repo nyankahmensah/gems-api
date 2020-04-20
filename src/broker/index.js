@@ -5,6 +5,7 @@ const ORMBuilder = require("./db");
 const ForecastService = require("./services/Forecast");
 const ApprovalService = require("./services/Approval");
 const MobileUserService = require("./services/MobileUser");
+const USSDSessionService = require("./services/USSDSession");
 const utils = require("./utils");
 
 // This closure is asynchronous and it returns a promise. Remember to await it
@@ -18,6 +19,7 @@ module.exports = async ({
     ForecastService: ForecastService({ ORM, utils }),
     ApprovalService: ApprovalService({ ORM, utils }),
     MobileUserService: MobileUserService({ ORM, utils }),
+    USSDSessionService: USSDSessionService({ ORM, utils }),
     utils
   };
 };

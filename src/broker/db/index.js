@@ -9,6 +9,7 @@ const buildORMFromModel = require("./buildORMFromModel");
 const ForecastModel = require("./models/Forecast");
 const ApprovalModel = require("./models/Approval");
 const { MobileUserModel } = require("./models/MobileUser");
+const USSDSessionModel = require("./models/USSDSessions");
 
 const ORMBuilder = async ({ databaseURI }) => {
   await mongoose
@@ -16,9 +17,9 @@ const ORMBuilder = async ({ databaseURI }) => {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     })
-    .catch((e) => {
+    .catch(e => {
       throw new Error(e);
     });
 
@@ -26,6 +27,7 @@ const ORMBuilder = async ({ databaseURI }) => {
     Forecast: buildORMFromModel(ForecastModel),
     Approval: buildORMFromModel(ApprovalModel),
     MobileUser: buildORMFromModel(MobileUserModel),
+    USSDSession: buildORMFromModel(USSDSessionModel)
   };
 };
 

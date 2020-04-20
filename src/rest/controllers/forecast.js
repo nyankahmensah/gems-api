@@ -23,7 +23,7 @@ exports.broadcastForecast = async (req, res) => {
     return res.status(200).json({
       ...req.body,
       MSG: parseString(messageTemplates.rootPage + message, network),
-      MSGTYPE: true,
+      MSGTYPE: true
     });
   }
 
@@ -32,6 +32,7 @@ exports.broadcastForecast = async (req, res) => {
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
     dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
+    phone: req.body.MSISDN
   });
 
   if (!forecast) {
@@ -43,7 +44,7 @@ exports.broadcastForecast = async (req, res) => {
           messageTemplates.childScreenBackMessage,
         network
       ),
-      MSGTYPE: true,
+      MSGTYPE: true
     });
   }
 
@@ -57,7 +58,7 @@ exports.broadcastForecast = async (req, res) => {
   return res.status(200).json({
     ...req.body,
     MSG: message,
-    MSGTYPE: true,
+    MSGTYPE: true
   });
 };
 
@@ -67,7 +68,7 @@ exports.receiveForecast = async (req, res) => {
   if (!effectiveDate) {
     return res.status(403).send({
       success: false,
-      Forecast: "InvalidEffectiveDate",
+      Forecast: "InvalidEffectiveDate"
     });
   }
 
@@ -79,12 +80,12 @@ exports.receiveForecast = async (req, res) => {
     return res.status(201).send({
       success: true,
       message: "Forecast saved successfully",
-      payload: savedForecast,
+      payload: savedForecast
     });
   } catch (e) {
     return res.status(500).send({
       message: "Wrong data format",
-      data: req.body,
+      data: req.body
     });
   }
 };
