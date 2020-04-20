@@ -4,6 +4,8 @@ const typeDefs = gql`
   type USSDSession {
     phone: String
     session: Int
+    createdAt: DateTime
+    updatedAt: DateTime
   }
 
   input getUSSDSessionFilter {
