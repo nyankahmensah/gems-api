@@ -14,7 +14,8 @@ function ForecastService({ ORM }) {
     sierraLeone,
     senegal,
     gambia,
-    effectiveDate
+    effectiveDate,
+    imageURL
   }) => {
     try {
       return ORM.Forecast.save({
@@ -32,7 +33,8 @@ function ForecastService({ ORM }) {
         sierraLeone,
         senegal,
         gambia,
-        effectiveDate
+        effectiveDate,
+        imageURL
       });
     } catch (e) {
       throw e;
@@ -53,10 +55,16 @@ function ForecastService({ ORM }) {
     });
 
     if (!forecast) {
-      return null;
+      return {
+        forecastMessage: null,
+        imageURL: null
+      };
     }
 
-    return forecast[country];
+    return {
+      forecastMessage: forecast[country],
+      imageURL: forecast.imageURL
+    };
   };
 
   const getForecastForDay = async ({ dateStart, dateEnd, phone, network }) => {

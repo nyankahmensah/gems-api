@@ -4,6 +4,7 @@ This module loads all models, handles connection to the database
  */
 const mongoose = require("mongoose");
 const buildORMFromModel = require("./buildORMFromModel");
+const mkdirp = require("mkdirp");
 
 // Models
 const ForecastModel = require("./models/Forecast");
@@ -36,6 +37,17 @@ const ORMBuilder = async ({ databaseURI }) => {
       "New user created - \nemail -- gmes@ug.edu.gh  \npassword -- password"
     );
   }
+
+  mkdirp(`${process.env.FILE_DIRECTORY}/oceanstate`, err => {
+    if (err) {
+      throw err;
+    }
+
+    console.log(
+      "File tree created at ",
+      `${process.env.FILE_DIRECTORY}/oceanstate`
+    );
+  });
 
   return {
     Forecast: buildORMFromModel(ForecastModel),

@@ -3,12 +3,9 @@ module.exports = {
 
   Query: {
     forecastByCountryAndDay: async (_, args, { broker }) => {
-      const forecast = broker.ForecastService.getForecastByCountryAndDay(
+      return await broker.ForecastService.getForecastByCountryAndDay(
         args.input
       );
-      return {
-        forecastMessage: forecast,
-      };
-    },
-  },
+    }
+  }
 };

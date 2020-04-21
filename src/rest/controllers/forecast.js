@@ -1,5 +1,6 @@
 const messageTemplates = require("./messageTemplates");
 const XDate = require("xdate");
+const formidable = require("formidable");
 
 const START_PAGE_USERDATA = "920031";
 exports.broadcastForecast = async (req, res) => {
@@ -64,29 +65,46 @@ exports.broadcastForecast = async (req, res) => {
 };
 
 exports.receiveForecast = async (req, res) => {
-  const { effectiveDate } = req.body;
+  const form = formidable({
+    uploadDir: `${process.env.FILE_DIRECTORY}/oceanstate`,
+    keepExtensions: true
+  });
 
-  if (!effectiveDate) {
-    return res.status(403).send({
-      success: false,
-      Forecast: "InvalidEffectiveDate"
-    });
-  }
+  form.parse(req, async (err, fields, file) => {
+    console.log("This is files", file);
+    if (err) {
+      console.error(err);
+      return res.status(500).send({
+        message: "Wrong data format",
+        data: fields
+      });
+    }
 
-  try {
-    const savedForecast = await req.broker.ForecastService.createForecast(
-      req.body
-    );
+    const { effectiveDate } = fields;
 
-    return res.status(201).send({
-      success: true,
-      message: "Forecast saved successfully",
-      payload: savedForecast
-    });
-  } catch (e) {
-    return res.status(500).send({
-      message: "Wrong data format",
-      data: req.body
-    });
-  }
+    if (!effectiveDate) {
+      return res.status(403).send({
+        success: false,
+        Forecast: "InvalidEffectiveDate"
+      });
+    }
+
+    try {
+      const savedForecast = await req.broker.ForecastService.createForecast({
+        ...fields,
+        imageURL: file.oceanStateImage.path
+      });
+
+      return res.status(201).send({
+        success: true,
+        message: "Forecast saved successfully",
+        payload: savedForecast
+      });
+    } catch (e) {
+      return res.status(500).send({
+        message: "Wrong data format",
+        data: req.body
+      });
+    }
+  });
 };
