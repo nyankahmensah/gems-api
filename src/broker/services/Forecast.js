@@ -59,24 +59,12 @@ function ForecastService({ ORM }) {
     return forecast[country];
   };
 
-  const getForecastForDay = async ({ dateStart, dateEnd, phone }) => {
-    const existingPhone = await ORM.USSDSession.findOne({
-      phone
+  const getForecastForDay = async ({ dateStart, dateEnd, phone, network }) => {
+    await ORM.USSDSession.save({
+      phone,
+      network
     });
 
-    if (!existingPhone) {
-      await ORM.USSDSession.save({
-        phone,
-        sessions: 1
-      });
-    } else {
-      await ORM.USSDSession.findOneAndUpdate(
-        { phone },
-        {
-          sessions: existingPhone.sessions + 1
-        }
-      );
-    }
     return ORM.Forecast.findOne({
       effectiveDate: {
         $gte: new Date(dateStart),

@@ -32,7 +32,8 @@ exports.broadcastForecast = async (req, res) => {
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
     dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
-    phone: req.body.MSISDN
+    phone: req.body.MSISDN,
+    network: req.body.NETWORK
   });
 
   if (!forecast) {

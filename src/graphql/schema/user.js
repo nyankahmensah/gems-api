@@ -8,8 +8,18 @@ const typeDefs = gql`
     mobileToken: String
   }
 
+  type User {
+    email: String
+  }
+
   extend type Mutation {
     loginMobileUser(password: String!): MobileUser
+    loginUser(email: String!, password: String): User
+    changeUserPassword(
+      email: String!
+      currentPassword: String!
+      newPassword: String!
+    ): User
   }
 `;
 

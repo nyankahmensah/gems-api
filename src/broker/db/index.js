@@ -10,6 +10,7 @@ const ForecastModel = require("./models/Forecast");
 const ApprovalModel = require("./models/Approval");
 const { MobileUserModel } = require("./models/MobileUser");
 const USSDSessionModel = require("./models/USSDSessions");
+const UserModel = require("./models/User");
 
 const ORMBuilder = async ({ databaseURI }) => {
   await mongoose
@@ -23,11 +24,25 @@ const ORMBuilder = async ({ databaseURI }) => {
       throw new Error(e);
     });
 
+  // Setting up new user if there is none
+  const existingUsers = await UserModel.find({});
+
+  if (!existingUsers.length) {
+    await new UserModel({
+      email: "gmes@ug.edu.gh",
+      password: "password"
+    }).save();
+    console.log(
+      "New user created - \nemail -- gmes@ug.edu.gh  \npassword -- password"
+    );
+  }
+
   return {
     Forecast: buildORMFromModel(ForecastModel),
     Approval: buildORMFromModel(ApprovalModel),
     MobileUser: buildORMFromModel(MobileUserModel),
-    USSDSession: buildORMFromModel(USSDSessionModel)
+    USSDSession: buildORMFromModel(USSDSessionModel),
+    User: buildORMFromModel(UserModel)
   };
 };
 
