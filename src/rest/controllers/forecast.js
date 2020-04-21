@@ -72,6 +72,7 @@ exports.receiveForecast = async (req, res) => {
 
   form.parse(req, async (err, fields, file) => {
     console.log("This is files", file);
+    console.log("This is fields", fields);
     if (err) {
       console.error(err);
       return res.status(500).send({
