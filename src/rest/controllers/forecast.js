@@ -1,5 +1,9 @@
 const messageTemplates = require("./messageTemplates");
 const XDate = require("xdate");
+const { promisify } = require("util");
+const fs = require("fs");
+
+const writeFileAsync = promisify(fs.writeFile);
 
 const START_PAGE_USERDATA = "920031";
 exports.broadcastForecast = async (req, res) => {
@@ -62,7 +66,7 @@ exports.broadcastForecast = async (req, res) => {
 };
 
 exports.receiveForecast = async (req, res) => {
-  const { effectiveDate } = req.body;
+  const { effectiveDate, oceanStateImage } = req.body;
 
   if (!effectiveDate) {
     return res.status(403).send({
@@ -71,10 +75,17 @@ exports.receiveForecast = async (req, res) => {
     });
   }
 
+  const imageBuffer = new Buffer.from(oceanStateImage, "base64");
+
+  await writeFileAsync(
+    `${process.env.FILE_DIRECTORY}/oceanstate/${effectiveDate}.png`,
+    imageBuffer
+  );
   try {
-    const savedForecast = await req.broker.ForecastService.createForecast(
-      req.body
-    );
+    const savedForecast = await req.broker.ForecastService.createForecast({
+      ...req.body,
+      oceanStateImage: `${effectiveDate}.png`
+    });
 
     return res.status(201).send({
       success: true,
@@ -87,4 +98,18 @@ exports.receiveForecast = async (req, res) => {
       data: req.body
     });
   }
+};
+
+exports.sendOceanStateImage = async (req, res) => {
+  fs.createReadStream(
+    `${process.env.FILE_DIRECTORY}/oceanstate/${req.params.image}`,
+    {
+      autoDestroy: true
+    }
+  )
+    .on("error", () => res.status(400).send("Bad Request"))
+    .on("end", () => {
+      res.end();
+    })
+    .pipe(res);
 };
