@@ -54,16 +54,18 @@ function ForecastService({ ORM }) {
       }
     });
 
+    console.log("Forecast", forecast);
+
     if (!forecast) {
       return {
         forecastMessage: null,
-        imageURL: null
+        oceanStateImage: null
       };
     }
 
     return {
       forecastMessage: forecast[country],
-      imageURL: forecast.imageURL
+      oceanStateImage: forecast.oceanStateImage
     };
   };
 
