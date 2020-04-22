@@ -15,7 +15,7 @@ function ForecastService({ ORM }) {
     senegal,
     gambia,
     effectiveDate,
-    imageURL
+    oceanStateImage
   }) => {
     try {
       return ORM.Forecast.save({
@@ -34,7 +34,7 @@ function ForecastService({ ORM }) {
         senegal,
         gambia,
         effectiveDate,
-        imageURL
+        oceanStateImage
       });
     } catch (e) {
       throw e;

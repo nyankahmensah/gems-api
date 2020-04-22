@@ -26,7 +26,7 @@ const typeDefs = gql`
 
   type Forecast {
     forecastMessage: String
-    imageURL: String
+    oceanStateImage: String
   }
 
   extend type Query {

@@ -1,6 +1,5 @@
 const messageTemplates = require("./messageTemplates");
 const XDate = require("xdate");
-const formidable = require("formidable");
 
 const START_PAGE_USERDATA = "920031";
 exports.broadcastForecast = async (req, res) => {
@@ -32,9 +31,7 @@ exports.broadcastForecast = async (req, res) => {
 
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
-    dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
-    phone: req.body.MSISDN,
-    network: req.body.NETWORK
+    dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59)
   });
 
   if (!forecast) {
@@ -65,47 +62,29 @@ exports.broadcastForecast = async (req, res) => {
 };
 
 exports.receiveForecast = async (req, res) => {
-  const form = formidable({
-    uploadDir: `${process.env.FILE_DIRECTORY}/oceanstate`,
-    keepExtensions: true
-  });
+  const { effectiveDate } = req.body;
 
-  form.parse(req, async (err, fields, file) => {
-    console.log("This is files", file);
-    console.log("This is fields", fields);
-    if (err) {
-      console.error(err);
-      return res.status(500).send({
-        message: "Wrong data format",
-        data: fields
-      });
-    }
+  if (!effectiveDate) {
+    return res.status(403).send({
+      success: false,
+      Forecast: "InvalidEffectiveDate"
+    });
+  }
 
-    const { effectiveDate } = fields;
+  try {
+    const savedForecast = await req.broker.ForecastService.createForecast(
+      req.body
+    );
 
-    if (!effectiveDate) {
-      return res.status(403).send({
-        success: false,
-        Forecast: "InvalidEffectiveDate"
-      });
-    }
-
-    try {
-      const savedForecast = await req.broker.ForecastService.createForecast({
-        ...fields,
-        imageURL: file.oceanStateImage.path
-      });
-
-      return res.status(201).send({
-        success: true,
-        message: "Forecast saved successfully",
-        payload: savedForecast
-      });
-    } catch (e) {
-      return res.status(500).send({
-        message: "Wrong data format",
-        data: req.body
-      });
-    }
-  });
+    return res.status(201).send({
+      success: true,
+      message: "Forecast saved successfully",
+      payload: savedForecast
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "Wrong data format",
+      data: req.body
+    });
+  }
 };

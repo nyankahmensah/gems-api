@@ -17,7 +17,7 @@ const forecastSchema = new mongoose.Schema(
     senegal: { type: String },
     gambia: { type: String },
     effectiveDate: { type: Date, required: true },
-    imageURL: { type: String }
+    oceanStateImage: { type: String }
   },
   { timestamps: true }
 );
