@@ -40,6 +40,12 @@ const startServer = async () => {
         });
       }
 
+      if (req.headers.token) {
+        currentUser = await graphqlUtils.resolveUser({
+          token: req.headers.token
+        });
+      }
+
       return {
         broker,
         currentUser

@@ -3,6 +3,7 @@ const approvalResolvers = require("./approval");
 const forecastResolvers = require("./forecast");
 const userResolvers = require("./user");
 const ussdSessionResolvers = require("./session");
+const countryResolvers = require("./country");
 
 const resolvers = {
   Mutation: {
@@ -10,7 +11,8 @@ const resolvers = {
     ...approvalResolvers.Mutation,
     ...forecastResolvers.Mutation,
     ...userResolvers.Mutation,
-    ...ussdSessionResolvers.Mutation
+    ...ussdSessionResolvers.Mutation,
+    ...countryResolvers.Mutation
   },
 
   Query: {
@@ -18,7 +20,8 @@ const resolvers = {
     ...approvalResolvers.Query,
     ...forecastResolvers.Query,
     ...userResolvers.Query,
-    ...ussdSessionResolvers.Query
+    ...ussdSessionResolvers.Query,
+    ...countryResolvers.Query
   }
 };
 

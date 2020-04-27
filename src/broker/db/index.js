@@ -12,6 +12,7 @@ const ApprovalModel = require("./models/Approval");
 const { MobileUserModel } = require("./models/MobileUser");
 const USSDSessionModel = require("./models/USSDSessions");
 const UserModel = require("./models/User");
+const { CountryAccountModel } = require("./models/Country");
 
 const ORMBuilder = async ({ databaseURI }) => {
   await mongoose
@@ -54,6 +55,7 @@ const ORMBuilder = async ({ databaseURI }) => {
     Approval: buildORMFromModel(ApprovalModel),
     MobileUser: buildORMFromModel(MobileUserModel),
     USSDSession: buildORMFromModel(USSDSessionModel),
+    Country: buildORMFromModel(CountryAccountModel),
     User: buildORMFromModel(UserModel)
   };
 };

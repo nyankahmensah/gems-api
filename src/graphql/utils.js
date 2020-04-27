@@ -13,10 +13,10 @@ const resolveMobileUser = async ({ mobileToken }) => {
 };
 
 // Resolves user with auth token
-const resolveCongregation = async ({ congregationToken }) => {
+const resolveUser = async ({ token }) => {
   try {
     return await utils.validateToken({
-      token: congregationToken,
+      token,
       secretKey: process.env.JWT_SECRET_KEY
     });
   } catch (e) {
@@ -33,5 +33,5 @@ const authenticateUser = fn => (root, args, context, info) => {
 };
 
 exports.resolveMobileUser = resolveMobileUser;
-exports.resolveCongregation = resolveCongregation;
+exports.resolveUser = resolveUser;
 exports.authenticateUser = authenticateUser;

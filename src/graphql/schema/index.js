@@ -6,6 +6,7 @@ const approvalSchema = require("./approval");
 const forecastSchema = require("./forecast");
 const userSchema = require("./user");
 const ussdSessionSchema = require("./session");
+const countrySchema = require("./country");
 
 const rootSchema = gql`
   scalar DateTime
@@ -25,5 +26,6 @@ module.exports = [
   approvalSchema,
   forecastSchema,
   userSchema,
-  ussdSessionSchema
+  ussdSessionSchema,
+  countrySchema
 ];
