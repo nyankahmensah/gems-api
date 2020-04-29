@@ -100,6 +100,42 @@ exports.receiveForecast = async (req, res) => {
   }
 };
 
+exports.receivePFZ = async (req, res) => {
+  const { effectiveDate, pfzImage } = req.body;
+
+  if (!effectiveDate) {
+    return res.status(403).send({
+      success: false,
+      Forecast: "InvalidEffectiveDate"
+    });
+  }
+
+  const imageBuffer = new Buffer.from(pfzImage, "base64");
+
+  await writeFileAsync(
+    `${process.env.FILE_DIRECTORY}/pfz/${effectiveDate}.png`,
+    imageBuffer
+  );
+
+  try {
+    const savedPFZ = await req.broker.PFZService.createForecast({
+      ...req.body,
+      pfzImage: `${effectiveDate}.png`
+    });
+
+    return res.status(201).send({
+      success: true,
+      message: "PFZ saved successfully",
+      payload: savedPFZ
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "Wrong data format",
+      data: req.body
+    });
+  }
+};
+
 exports.sendOceanStateImage = async (req, res) => {
   fs.createReadStream(
     `${process.env.FILE_DIRECTORY}/oceanstate/${req.params.image}`,

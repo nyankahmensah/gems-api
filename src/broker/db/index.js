@@ -8,6 +8,7 @@ const mkdirp = require("mkdirp");
 
 // Models
 const ForecastModel = require("./models/Forecast");
+const PFZModel = require("./models/PFZ");
 const ApprovalModel = require("./models/Approval");
 const { MobileUserModel } = require("./models/MobileUser");
 const USSDSessionModel = require("./models/USSDSessions");
@@ -50,12 +51,24 @@ const ORMBuilder = async ({ databaseURI }) => {
     );
   });
 
+  mkdirp(`${process.env.FILE_DIRECTORY}/pfz`, err => {
+    if (err) {
+      throw err;
+    }
+
+    console.log(
+      "File tree created at ",
+      `${process.env.FILE_DIRECTORY}/pfz`
+    );
+  });
+
   return {
     Forecast: buildORMFromModel(ForecastModel),
     Approval: buildORMFromModel(ApprovalModel),
     MobileUser: buildORMFromModel(MobileUserModel),
     USSDSession: buildORMFromModel(USSDSessionModel),
     Country: buildORMFromModel(CountryAccountModel),
+    PFZ: buildORMFromModel(PFZModel),
     User: buildORMFromModel(UserModel)
   };
 };

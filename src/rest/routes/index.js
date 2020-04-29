@@ -5,6 +5,7 @@ const { forecastController } = require("../controllers");
 router.post("/", forecastController.receiveForecast);
 router.post("/ussd", forecastController.broadcastForecast);
 router.post("/message", forecastController.receiveForecast);
+router.post("/pfz", forecastController.receivePFZ);
 router.get("/oceanstate/:image", forecastController.sendOceanStateImage);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const ORMBuilder = require("./db");
 
 // Services
 const ForecastService = require("./services/Forecast");
+const PFZService = require("./services/PFZ");
 const ApprovalService = require("./services/Approval");
 const MobileUserService = require("./services/MobileUser");
 const USSDSessionService = require("./services/USSDSession");
@@ -19,6 +20,7 @@ module.exports = async ({
 
   return {
     ForecastService: ForecastService({ ORM, utils }),
+    PFZService: PFZService({ ORM, utils }),
     ApprovalService: ApprovalService({ ORM, utils }),
     MobileUserService: MobileUserService({ ORM, utils }),
     USSDSessionService: USSDSessionService({ ORM, utils }),
