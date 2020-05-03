@@ -54,8 +54,6 @@ function ForecastService({ ORM }) {
       }
     });
 
-    console.log("Forecast", forecast);
-
     if (!forecast) {
       return {
         forecastMessage: null,
@@ -83,6 +81,17 @@ function ForecastService({ ORM }) {
     });
   };
 
+  const getForecastForIVR = async ({ dateStart, dateEnd, country }) => {
+    const forecast = await ORM.Forecast.findOne({
+      effectiveDate: {
+        $gte: new Date(dateStart),
+        $lt: dateEnd
+      }
+    });
+
+    return forecast[country];
+  };
+
   const broadcastForecast = async ({ category }) =>
     ORM.Forecast.findOne({ category });
 
@@ -91,7 +100,8 @@ function ForecastService({ ORM }) {
     getForecastForDay,
     broadcastForecast,
     getForecast,
-    getForecastByCountryAndDay
+    getForecastByCountryAndDay,
+    getForecastForIVR
   };
 }
 

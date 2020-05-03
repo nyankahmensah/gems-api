@@ -65,6 +65,21 @@ exports.broadcastForecast = async (req, res) => {
   });
 };
 
+exports.broadcastForecastToIVR = async (req, res) => {
+  const day = req.query.day;
+  const country = req.query.country;
+
+  const date = new XDate().addDays(Number(day));
+
+  const forecast = await req.broker.ForecastService.getForecast({
+    dateStart: new Date(date.toString()).setHours(0, 0, 0),
+    dateEnd: new Date(date.toString()).setHours(23, 59, 59),
+    country
+  });
+
+  return res.status(200).send(forecast);
+};
+
 exports.receiveForecast = async (req, res) => {
   const { effectiveDate, oceanStateImage } = req.body;
 
