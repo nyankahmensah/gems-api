@@ -89,7 +89,7 @@ function ForecastService({ ORM }) {
       }
     });
 
-    if(!forecast) {
+    if(!forecast || !forecast[country]) {
       return '0';
     }
 
