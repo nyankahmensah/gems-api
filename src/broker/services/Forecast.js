@@ -89,17 +89,18 @@ function ForecastService({ ORM }) {
       }
     });
 
+    if(!forecast) {
+      return 0;
+    }
+
     const forecastValue = /:(.*)\(/
         .exec(forecast[country])[0]
         .split(' ');
 
-    console.log("This is forecast", forecast);
-    console.log("This is value from regex", forecastValue);
-    if(!forecastValue[1]) {
+    if(forecastValue.length === 3)
+      return forecastValue[1];
+    else
       return 0;
-    }
-
-    return forecastValue[1];
   };
 
   const broadcastForecast = async ({ category }) =>
