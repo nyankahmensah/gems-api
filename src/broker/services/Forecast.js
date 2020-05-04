@@ -95,11 +95,11 @@ function ForecastService({ ORM }) {
 
     console.log("This is forecast", forecast);
     console.log("This is value from regex", forecastValue);
-    if(!forecastValue) {
+    if(!forecastValue[1]) {
       return 0;
     }
 
-    return forecastValue;
+    return forecastValue[1];
   };
 
   const broadcastForecast = async ({ category }) =>
