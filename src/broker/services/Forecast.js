@@ -90,7 +90,7 @@ function ForecastService({ ORM }) {
     });
 
     if(!forecast) {
-      return 0;
+      return '0';
     }
 
     const forecastValue = /:(.*)\(/
@@ -100,7 +100,7 @@ function ForecastService({ ORM }) {
     if(forecastValue.length === 3)
       return forecastValue[1];
     else
-      return 0;
+      return '0';
   };
 
   const broadcastForecast = async ({ category }) =>
