@@ -93,6 +93,8 @@ function ForecastService({ ORM }) {
         .exec(forecast[country])[0]
         .split(' ');
 
+    console.log("This is forecast", forecast);
+    console.log("This is value from regex", forecastValue);
     if(!forecastValue) {
       return 0;
     }
