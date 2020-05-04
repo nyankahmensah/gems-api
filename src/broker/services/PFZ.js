@@ -9,4 +9,4 @@ function PFZService({ ORM }) {
   return { createPFZ };
 }
 
-export default PFZService;
+module.exports = PFZService;

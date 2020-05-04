@@ -89,7 +89,15 @@ function ForecastService({ ORM }) {
       }
     });
 
-    return forecast[country];
+    const forecastValue = /:(.*)\(/
+        .exec(forecast[country])[0]
+        .split(' ');
+
+    if(!forecastValue) {
+      return 0;
+    }
+
+    return forecastValue;
   };
 
   const broadcastForecast = async ({ category }) =>
