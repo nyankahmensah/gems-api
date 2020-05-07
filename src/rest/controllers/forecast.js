@@ -5,8 +5,9 @@ const fs = require("fs");
 
 const writeFileAsync = promisify(fs.writeFile);
 
-const START_PAGE_USERDATA = "920031";
+const START_PAGE_USERDATA = "POLYMRPH";
 exports.broadcastForecast = async (req, res) => {
+  console.log("Request body", req.body);
   const parseString = req.broker.utils.parseAmpersandInString;
   const network = req.body.NETWORK;
 
