@@ -10,6 +10,7 @@ exports.broadcastForecast = async (req, res) => {
   console.log("Request body", req.body);
   const parseString = req.broker.utils.parseAmpersandInString;
   const network = req.body.NETWORK;
+  const phone = req.body.MSISDN;
 
   // Checking if it is root page
   if (
@@ -36,7 +37,9 @@ exports.broadcastForecast = async (req, res) => {
 
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
-    dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59)
+    dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
+    phone,
+    network
   });
 
   if (!forecast) {
