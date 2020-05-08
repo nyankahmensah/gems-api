@@ -15,6 +15,7 @@ const typeDefs = gql`
 
   extend type Query {
     USSDSessions(filter: getUSSDSessionFilter): [USSDSession]
+    USSDSessionsNumber: Int
   }
 `;
 
