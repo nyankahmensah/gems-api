@@ -6,11 +6,11 @@ const fs = require("fs");
 const writeFileAsync = promisify(fs.writeFile);
 
 const START_PAGE_USERDATA = "*920*88";
-exports.broadcastForecast = async (req, res) => {
+exports.broadcastForecastGh = async (req, res) => {
   console.log("Request body", req.body);
   const parseString = req.broker.utils.parseAmpersandInString;
   const network = req.body.NETWORK;
-  const phone = req.body.MSISDN;
+
 
   // Checking if it is root page
   if (
@@ -38,8 +38,8 @@ exports.broadcastForecast = async (req, res) => {
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
     dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
-    phone,
-    network
+    phone: req.body.MSISDN,
+    network: req.body.NETWORK
   });
 
   if (!forecast) {
@@ -68,6 +68,49 @@ exports.broadcastForecast = async (req, res) => {
     MSGTYPE: true
   });
 };
+
+exports.broadcastForecastNg = async (req, res) => {
+  console.log("Request body", req.body);
+  const parseString = req.broker.utils.parseAmpersandInString;
+
+
+
+  // Checking if it is root page
+  if (String(req.body.text) === "") {
+    // Computing days -- [3 days ahead, passing to array]
+    const daysAhead = req.broker.utils.computeDaysAhead(3);
+
+    let message = "\n1. Today, " + new XDate().toString("ddd dS MMM");
+    daysAhead.map((day, index) => {
+      message = message + "\n" + (index + 2) + ". " + day;
+    });
+    return res.status(200).send("CON " + messageTemplates.rootPage + message);
+  }
+
+  const inputLength = req.body.text.length;
+  const inputChoice = inputLength > 2 ? String(req.body.text).split("*") : [req.body.text.length];
+  const currentDate = new XDate().addDays(Number(inputChoice[inputLength - 1] - 1));
+
+  const forecast = await req.broker.ForecastService.getForecastForDay({
+    dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
+    dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
+    phone: req.body.phoneNumber,
+    network: "Undefined"
+  });
+
+  if (!forecast) {
+    res.status(200).send("CON " + messageTemplates.childScreenMessage +
+        "\nNo forecast has been provided for this day" +
+        messageTemplates.childScreenBackMessage);
+  }
+
+  res.status(200).send("CON " + messageTemplates.childScreenMessage +
+      forecast.ghana +
+      messageTemplates.childScreenBackMessage);
+
+};
+
+
 
 exports.broadcastForecastToIVR = async (req, res) => {
   const day = req.query.day;
