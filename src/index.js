@@ -1,5 +1,6 @@
 const { ApolloServer } = require("apollo-server-express");
 const dotenv = require("dotenv");
+const bodyParser = require('body-parser');
 const Sentry = require("@sentry/node");
 const app = require("./app");
 const schema = require("./graphql/schema");
@@ -63,6 +64,7 @@ const startServer = async () => {
   // Applying graphQL server to express server
   server.applyMiddleware({ app, path: "/graphql" });
   app.use(injectBroker({ broker }));
+  app.use(bodyParser.urlencoded({ extended: true}))
   app.use(routes);
 
   app.listen(process.env.PORT, () => {
