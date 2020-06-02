@@ -2,6 +2,7 @@ const messageTemplates = require("./messageTemplates");
 const XDate = require("xdate");
 const { promisify } = require("util");
 const fs = require("fs");
+const Sentry = require('@sentry/node');
 
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -155,6 +156,7 @@ exports.receiveForecast = async (req, res) => {
       payload: savedForecast
     });
   } catch (e) {
+    await Sentry.captureException(e);
     return res.status(500).send({
       message: "Wrong data format",
       data: req.body
@@ -191,6 +193,7 @@ exports.receivePFZ = async (req, res) => {
       payload: savedPFZ
     });
   } catch (e) {
+    await Sentry.captureException(e);
     return res.status(500).send({
       message: "Wrong data format",
       data: req.body
