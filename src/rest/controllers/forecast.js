@@ -182,7 +182,7 @@ exports.receivePFZ = async (req, res) => {
   );
 
   try {
-    const savedPFZ = await req.broker.PFZService.createForecast({
+    const savedPFZ = await req.broker.PFZService.createPFZ({
       ...req.body,
       pfzImage: `${effectiveDate}.png`
     });
