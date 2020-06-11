@@ -10,12 +10,17 @@ module.exports = {
       watch: false,
       max_memory_restart: "1G",
       env: {
-        NODE_ENV: "development"
+        NODE_ENV: "development",
+        DATABASE_URI: "mongodb://localhost:27017/gmes",
+        PORT: 5001,
+        JWT_SECRET_KEY:
+          "908u9y7gf382fho3487hf98o28l3igydeihof32uyugklhf3iogy2fuh2398o87gy3fi2up9h8ogy3f2p",
+        FILE_DIRECTORY: "/home/raaj/.gmes"
       },
       env_production: {
         NODE_ENV: "production",
         DATABASE_URI: "mongodb://localhost:27017/gmes",
-        PORT: 5000,
+        PORT: 5001,
         JWT_SECRET_KEY:
           "908u9y7gf382fho3487hf98o28l3igydeihof32uyugklhf3iogy2fuh2398o87gy3fi2up9h8ogy3f2p",
         FILE_DIRECTORY: "/home/pfz_user/.gmes"
