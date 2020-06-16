@@ -7,6 +7,7 @@ const forecastSchema = require("./forecast");
 const userSchema = require("./user");
 const ussdSessionSchema = require("./session");
 const countrySchema = require("./country");
+const pfzSchema = require("./pfz");
 
 const rootSchema = gql`
   scalar DateTime
@@ -27,5 +28,6 @@ module.exports = [
   forecastSchema,
   userSchema,
   ussdSessionSchema,
-  countrySchema
+  countrySchema,
+  pfzSchema
 ];
