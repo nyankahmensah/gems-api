@@ -91,7 +91,7 @@ exports.broadcastForecastNg = async (req, res) => {
   const inputLength = req.body.text.length;
   //const inputChoice = inputLength > 2 ? String(req.body.text).split("*") : [req.body.text.length];
   const option = Number(req.body.text.charAt(inputLength - 1));
-  const currentDate = new XDate().addDays(option);
+  const currentDate = new XDate().addDays(option - 1);
 
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
