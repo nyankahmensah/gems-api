@@ -8,13 +8,19 @@ const typeDefs = gql`
     updatedAt: DateTime
   }
 
+  type USSDSessionResponse {
+    data: [USSDSession]
+    totalPages: Int
+    page: Int
+  }
+  
   input getUSSDSessionFilter {
     phone: String
     session: Int
   }
-
+  
   extend type Query {
-    USSDSessions(filter: getUSSDSessionFilter): [USSDSession]
+    USSDSessions(filter: getUSSDSessionFilter): USSDSessionResponse
     USSDSessionsNumber: Int
   }
 `;

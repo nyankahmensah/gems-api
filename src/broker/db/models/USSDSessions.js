@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 
 const ussdSessionSchema = mongoose.Schema(
   {
@@ -7,5 +9,7 @@ const ussdSessionSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+ussdSessionSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model("ussdSession", ussdSessionSchema);
