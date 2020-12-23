@@ -25,6 +25,7 @@ const typeDefs = gql`
   type ApprovalResponse {
     data: [Approval]
     totalPages: Int
+    page: Int
   }
 
   input requestApprovalInput {
