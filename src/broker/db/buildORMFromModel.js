@@ -26,7 +26,7 @@ module.exports = (Model) => {
     Model.findOne(condition).sort({ updatedAt: -1 });
 
   const paginate = async (condition, page = 1) => {
-    const { data, totalPages } = await Model.paginate(condition, { page, limit: 10 })
+    const { docs: data, totalPages } = await Model.paginate(condition, { page, limit: 10 })
     return { data, totalPages }
   }
 
