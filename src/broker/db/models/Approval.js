@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const approvalSchema = new mongoose.Schema(
   {
@@ -18,5 +19,7 @@ const approvalSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+approvalSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model("approval", approvalSchema);

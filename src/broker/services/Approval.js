@@ -90,7 +90,7 @@ ${newUserAccountPin}`,
   };
 
   // Get approvals...
-  const getApprovals = async (filter = {}) => await ORM.Approval.find(filter);
+  const getApprovals = async (filter = {}, page) => await ORM.Approval.paginate(filter, page);
 
   return {
     requestApproval,

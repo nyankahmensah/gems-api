@@ -21,6 +21,11 @@ const typeDefs = gql`
     createdAt: DateTime
     updatedAt: DateTime
   }
+  
+  type ApprovalResponse {
+    data: [Approval]
+    totalPages: Int
+  }
 
   input requestApprovalInput {
     name: String!
@@ -55,7 +60,7 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    approvals(filter: getApprovalsFilter): [Approval]
+    approvals(filter: getApprovalsFilter page: Int): ApprovalResponse
   }
 `;
 

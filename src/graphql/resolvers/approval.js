@@ -17,6 +17,6 @@ module.exports = {
 
   Query: {
     approvals: async (_, args, { broker }) =>
-      broker.ApprovalService.getApprovals(args.filter),
+      broker.ApprovalService.getApprovals(args.filter, args.page),
   },
 };

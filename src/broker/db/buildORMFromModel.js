@@ -25,6 +25,11 @@ module.exports = (Model) => {
   const findOne = async (condition) =>
     Model.findOne(condition).sort({ updatedAt: -1 });
 
+  const paginate = async (condition, page = 1) => {
+    const { data, totalPages } = await Model.paginate(condition, { page, limit: 10 })
+    return { data, totalPages }
+  }
+
   return {
     save,
     find,
@@ -34,5 +39,6 @@ module.exports = (Model) => {
     findOneAndUpdate,
     findOneAndRemove,
     count,
+    paginate
   };
 };
