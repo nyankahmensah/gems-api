@@ -16,7 +16,9 @@ module.exports = {
   },
 
   Query: {
-    approvals: async (_, args, { broker }) =>
-      broker.ApprovalService.getApprovals(args.filter, args.page),
+    approvals: async (_, args, { broker }) => {
+        console.log("The args", args)
+        return broker.ApprovalService.getApprovals(args.filter, args.page)
+    },
   },
 };
