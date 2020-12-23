@@ -20,7 +20,7 @@ const typeDefs = gql`
   }
   
   extend type Query {
-    USSDSessions(filter: getUSSDSessionFilter): USSDSessionResponse
+    USSDSessions(filter: getUSSDSessionFilter page: Int): USSDSessionResponse
     USSDSessionsNumber: Int
   }
 `;
