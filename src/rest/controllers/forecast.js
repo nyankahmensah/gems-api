@@ -132,6 +132,7 @@ exports.broadcastForecastToIVR = async (req, res) => {
 
 exports.receiveForecast = async (req, res) => {
   const { effectiveDate, oceanStateImage } = req.body;
+  console.log("req.body", JSON.stringify(req.body))
 
   if (!effectiveDate) {
     return res.status(403).send({

@@ -26,7 +26,7 @@ function ForecastService({ ORM }) {
 
 	console.log("Algeria", algeria);
 	console.log("Tunisia", tunisia);
-        console.log("Ghana", ghana);
+  console.log("Ghana", ghana);
 	console.log("Libya", libya);
 	console.log("Egypt", egypt);
 	console.log("Western Sahara", westernsahara);
