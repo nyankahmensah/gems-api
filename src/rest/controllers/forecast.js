@@ -4,6 +4,7 @@ const { promisify } = require("util");
 const fs = require("fs");
 const Sentry = require('@sentry/node');
 const ForecastModel = require("../../broker/db/models/Forecast")
+const dayjs = require("dayjs");
 
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -141,6 +142,8 @@ exports.receiveForecast = async (req, res) => {
     });
   }
 
+  const effectiveDateX = dayjs(effectiveDate, "DD-MMM-YYYY")
+
   const imageBuffer = new Buffer.from(oceanStateImage, "base64");
   
   await writeFileAsync(
@@ -149,12 +152,15 @@ exports.receiveForecast = async (req, res) => {
   );
   try {
     const savedForecast = await ForecastModel.findOneAndUpdate({
-      effectiveDate,
+      effectiveDate: {
+        $gte: effectiveDateX.startOf("day").toDate(),
+        $lte: effectiveDateX.endOf("day").toDate(),
+      }
     }, 
   {
     $set: {
       ...rest,
-      effectiveDate,
+      effectiveDate: effectiveDateX.startOf("day").toDate(),
       oceanStateImage: `${effectiveDate}.png`
     }
   }, {
@@ -188,13 +194,19 @@ exports.receiveGhanaForecast = async (req, res) => {
     });
   }
 
+
+  const effectiveDateX = dayjs(effectiveDate, "DD-MMM-YYYY")
+
   try {
     const savedForecast = await ForecastModel.findOneAndUpdate({
-      effectiveDate
+      effectiveDate: {
+        $gte: effectiveDateX.startOf("day").toDate(),
+        $lte: effectiveDateX.endOf("day").toDate(),
+      }
     }, 
   {
     $set: {
-      effectiveDate,
+      effectiveDate: effectiveDateX.startOf("day").toDate(),
       ghana: message,
       oceanStateImage: `${effectiveDate}.png`
     }
