@@ -3,6 +3,7 @@ const { forecastController, pfzController } = require("../controllers");
 
 // Forecast
 router.post("/", forecastController.receiveForecast);
+router.post("/ghana", forecastController.receiveGhanaForecast);
 router.post("/ussd", forecastController.broadcastForecastGh);
 router.post("/ussd-nigeria", forecastController.broadcastForecastNg);
 router.get("/ivr-forecast", forecastController.broadcastForecastToIVR);

@@ -3,6 +3,7 @@ const XDate = require("xdate");
 const { promisify } = require("util");
 const fs = require("fs");
 const Sentry = require('@sentry/node');
+const ForecastModel = require("../../broker/db/models/Forecast")
 
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -131,8 +132,7 @@ exports.broadcastForecastToIVR = async (req, res) => {
 };
 
 exports.receiveForecast = async (req, res) => {
-  const { effectiveDate, oceanStateImage } = req.body;
-  console.log("req.body", JSON.stringify(req.body))
+  const { effectiveDate, oceanStateImage, ...rest } = req.body;
 
   if (!effectiveDate) {
     return res.status(403).send({
@@ -140,19 +140,68 @@ exports.receiveForecast = async (req, res) => {
       Forecast: "InvalidEffectiveDate"
     });
   }
-  if(oceanStateImage) {
-    const imageBuffer = new Buffer.from(oceanStateImage, "base64");
+
+  const imageBuffer = new Buffer.from(oceanStateImage, "base64");
   
-    await writeFileAsync(
-      `${process.env.FILE_DIRECTORY}/oceanstate/${effectiveDate}.png`,
-      imageBuffer
-    );
-  }
+  await writeFileAsync(
+    `${process.env.FILE_DIRECTORY}/oceanstate/${effectiveDate}.png`,
+    imageBuffer
+  );
   try {
-    const savedForecast = await req.broker.ForecastService.createForecast({
-      ...req.body,
+    const savedForecast = await ForecastModel.findByIdAndUpdate({
+      effectiveDate,
+    }, 
+  {
+    $set: {
+      ...rest,
+      effectiveDate,
       oceanStateImage: `${effectiveDate}.png`
+    }
+  }, {
+    setDefaultsOnInsert: true,
+    upsert: true,
+    new: true
+  })
+
+    return res.status(201).send({
+      success: true,
+      message: "Forecast saved successfully",
+      payload: savedForecast
     });
+  } catch (e) {
+    await Sentry.captureException(e);
+    return res.status(500).send({
+      message: "Wrong data format",
+      data: req.body
+    });
+  }
+};
+
+exports.receiveGhanaForecast = async (req, res) => {
+  const { effectiveDate, message } = req.body;
+
+  if (!effectiveDate) {
+    return res.status(403).send({
+      success: false,
+      Forecast: "InvalidEffectiveDate"
+    });
+  }
+
+  try {
+    const savedForecast = await ForecastModel.findByIdAndUpdate({
+      effectiveDate
+    }, 
+  {
+    $set: {
+      effectiveDate,
+      ghana: message,
+      oceanStateImage: `${effectiveDate}.png`
+    }
+  }, {
+    setDefaultsOnInsert: true,
+    upsert: true,
+    new: true
+  })
 
     return res.status(201).send({
       success: true,
