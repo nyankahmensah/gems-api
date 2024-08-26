@@ -179,6 +179,7 @@ exports.receiveForecast = async (req, res) => {
 
 exports.receiveGhanaForecast = async (req, res) => {
   const { effectiveDate, message } = req.body;
+  console.log(req.body)
 
   if (!effectiveDate) {
     return res.status(403).send({
@@ -209,6 +210,7 @@ exports.receiveGhanaForecast = async (req, res) => {
       payload: savedForecast
     });
   } catch (e) {
+    console.log(e)
     await Sentry.captureException(e);
     return res.status(500).send({
       message: "Wrong data format",
