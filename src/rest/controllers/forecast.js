@@ -148,7 +148,7 @@ exports.receiveForecast = async (req, res) => {
     imageBuffer
   );
   try {
-    const savedForecast = await ForecastModel.findByIdAndUpdate({
+    const savedForecast = await ForecastModel.findOneAndUpdate({
       effectiveDate,
     }, 
   {
@@ -189,7 +189,7 @@ exports.receiveGhanaForecast = async (req, res) => {
   }
 
   try {
-    const savedForecast = await ForecastModel.findByIdAndUpdate({
+    const savedForecast = await ForecastModel.findOneAndUpdate({
       effectiveDate
     }, 
   {
