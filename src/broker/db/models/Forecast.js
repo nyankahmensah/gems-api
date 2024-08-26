@@ -16,6 +16,12 @@ const forecastSchema = new mongoose.Schema(
     sierraleone: { type: String },
     senegal: { type: String },
     gambia: { type: String },
+    westernsahara: { type: String },
+    morocco: { type: String },
+    algeria: { type: String },
+    tunisia: { type: String },
+    libya: { type: String },
+    egypt: { type: String }, 
     effectiveDate: { type: Date, required: true },
     oceanStateImage: { type: String }
   },

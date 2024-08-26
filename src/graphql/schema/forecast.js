@@ -16,6 +16,12 @@ const typeDefs = gql`
     sierraleone
     senegal
     gambia
+    westernsahara
+    morocco
+    algeria
+    tunisia
+    libya
+    egypt
   }
 
   input forecastByCountryAndDayInput {

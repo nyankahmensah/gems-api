@@ -3,36 +3,55 @@ function ForecastService({ ORM }) {
     ghana,
     benin,
     togo,
-    capeVerde,
-    guineaBissau,
-    saoTomePrincipe,
-    coteDivoire,
+    capeverde,
+    guineabissau,
+    saotome,
+    ivorycoast,
     guinea,
     mauritania,
     liberia,
     nigeria,
-    sierraLeone,
+    sierraleone,
     senegal,
     gambia,
+    westernsahara,
+    morocco,
+    algeria,
+    tunisia,
+    libya,
+    egypt,
     effectiveDate,
     oceanStateImage
   }) => {
+
+	console.log("Algeria", algeria);
+	console.log("Tunisia", tunisia);
+        console.log("Ghana", ghana);
+	console.log("Libya", libya);
+	console.log("Egypt", egypt);
+	console.log("Western Sahara", westernsahara);
     try {
       return ORM.Forecast.save({
         ghana,
         benin,
         togo,
-        capeVerde,
-        guineaBissau,
-        saoTomePrincipe,
-        coteDivoire,
+        capeverde,
+        guineabissau,
+        saotome,
+        ivorycoast,
         guinea,
         mauritania,
         liberia,
         nigeria,
-        sierraLeone,
+        sierraleone,
         senegal,
         gambia,
+        westernsahara,
+        morocco,
+        algeria,
+        tunisia,
+        libya,
+        egypt,
         effectiveDate,
         oceanStateImage
       });
@@ -47,12 +66,16 @@ function ForecastService({ ORM }) {
     startDate,
     endDate
   }) => {
+console.log("country_m", country)
+console.log("startDate_m", startDate)
+console.log("endDate_m", endDate)
     const forecast = await ORM.Forecast.findOne({
       effectiveDate: {
         $gte: new Date(startDate).setHours(0, 0, 0),
         $lt: new Date(endDate).setHours(23, 59, 59)
       }
     });
+console.log("forecast_m", forecast)
 
     if (!forecast) {
       return {
@@ -68,6 +91,10 @@ function ForecastService({ ORM }) {
   };
 
   const getForecastForDay = async ({ dateStart, dateEnd, phone, network }) => {
+console.log("dateStart_u", dateStart)
+console.log("dateEnd_u", dateEnd)
+console.log("phone", phone)
+console.log("network", network)
     await ORM.USSDSession.save({
       phone,
       network

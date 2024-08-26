@@ -35,7 +35,7 @@ exports.broadcastForecastGh = async (req, res) => {
   }
 
   const currentDate = new XDate().addDays(Number(req.body.USERDATA - 1));
-
+  console.log("CurrentDate ====== ", currentDate);
   const forecast = await req.broker.ForecastService.getForecastForDay({
     dateStart: new Date(currentDate.toString()).setHours(0, 0, 0),
     dateEnd: new Date(currentDate.toString()).setHours(23, 59, 59),
@@ -43,6 +43,7 @@ exports.broadcastForecastGh = async (req, res) => {
     network: req.body.NETWORK
   });
 
+console.log("forecast", forecast)
   if (!forecast) {
     return res.status(200).json({
       ...req.body,
@@ -138,13 +139,14 @@ exports.receiveForecast = async (req, res) => {
       Forecast: "InvalidEffectiveDate"
     });
   }
-
-  const imageBuffer = new Buffer.from(oceanStateImage, "base64");
-
-  await writeFileAsync(
-    `${process.env.FILE_DIRECTORY}/oceanstate/${effectiveDate}.png`,
-    imageBuffer
-  );
+  if(oceanStateImage) {
+    const imageBuffer = new Buffer.from(oceanStateImage, "base64");
+  
+    await writeFileAsync(
+      `${process.env.FILE_DIRECTORY}/oceanstate/${effectiveDate}.png`,
+      imageBuffer
+    );
+  }
   try {
     const savedForecast = await req.broker.ForecastService.createForecast({
       ...req.body,
